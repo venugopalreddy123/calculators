@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Input } from "./Input";
+import { Output } from "./Output";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    result: "",
+  };
+
+  buttonPressed = (buttonName) => {
+    if (buttonName === "=") {
+      this.calculate();
+    } else if (buttonName === "c") {
+      this.clear();
+    } else if (buttonName === "ce") {
+      this.backSpace();
+    } else
+      this.setState({
+        result: this.state.result + buttonName,
+      });
+  };
+  calculate = () => {
+    this.setState({
+      result: eval(this.state.result),
+    });
+  };
+  clear = () => {
+    this.setState({
+      result: "",
+    });
+  };
+  backSpace = () => {
+    this.setState({
+      result: this.state.result.slice(0, -1),
+    });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <h1 style={{ textAlign: "center" }}>Calculator</h1>
+        <div className="main-class">
+          <Output result={this.state.result} />
+          <Input buttonPressed={this.buttonPressed} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
